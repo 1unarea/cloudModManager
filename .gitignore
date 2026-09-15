@@ -11,7 +11,9 @@
 # Local Go SDK & Archives
 /go/
 *.tar.gz
+*.tgz
 *.zip
+/npm/bin/
 
 # Workspace & Agent artifacts
 /.agents/

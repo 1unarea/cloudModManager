@@ -1,0 +1,42 @@
+{
+  "name": "cloudmodmanager",
+  "version": "0.2.0",
+  "description": "Cloud Mod Manager (cmm) - Minecraft server and modpack manager CLI",
+  "main": "npm/run.js",
+  "bin": {
+    "cmm": "npm/run.js",
+    "cloudmodmanager": "npm/run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aegeada/cloudModManager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aegeada/cloudModManager/issues"
+  },
+  "homepage": "https://github.com/aegeada/cloudModManager#readme",
+  "author": "aegeada",
+  "license": "MIT",
+  "keywords": [
+    "minecraft",
+    "modpack",
+    "modrinth",
+    "mod-manager",
+    "fabric",
+    "neoforge",
+    "forge",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "postinstall": "node npm/install.js"
+  },
+  "files": [
+    "npm/run.js",
+    "npm/install.js",
+    "README.md",
+    "LICENSE"
+  ]
+}

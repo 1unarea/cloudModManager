@@ -18,7 +18,7 @@ func TestVersion_UpToDate(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		rel := selfupdate.ReleaseInfo{
-			TagName: "v0.1.0",
+			TagName: "v0.2.0",
 		}
 		json.NewEncoder(w).Encode(rel)
 	}))
@@ -38,8 +38,8 @@ func TestVersion_UpdateAvailable_CheckOnly(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		rel := selfupdate.ReleaseInfo{
-			TagName: "v0.2.0",
-			HTMLURL: "https://github.com/aegeada/cloudModManager/releases/tag/v0.2.0",
+			TagName: "v0.3.0",
+			HTMLURL: "https://github.com/aegeada/cloudModManager/releases/tag/v0.3.0",
 		}
 		json.NewEncoder(w).Encode(rel)
 	}))
@@ -49,7 +49,7 @@ func TestVersion_UpdateAvailable_CheckOnly(t *testing.T) {
 
 	res := ctx.Run("version", "--check")
 	res.AssertSuccess()
-	res.AssertStdoutContains("A new version of Cloud Mod Manager is available: v0.2.0")
+	res.AssertStdoutContains("A new version of Cloud Mod Manager is available: v0.3.0")
 }
 
 func TestVersion_UpdateCancelled(t *testing.T) {
@@ -59,7 +59,7 @@ func TestVersion_UpdateCancelled(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		rel := selfupdate.ReleaseInfo{
-			TagName: "v0.2.0",
+			TagName: "v0.3.0",
 		}
 		json.NewEncoder(w).Encode(rel)
 	}))

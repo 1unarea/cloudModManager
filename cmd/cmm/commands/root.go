@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Use:     "cmm",
 	Short:   "Cloud Mod Manager",
 	Long:    `A CLI tool for managing Minecraft mods on a server and syncing modpacks.`,
-	Version: "0.1.0",
+	Version: "0.2.0",
 }
 
 var selfInstallCmd = &cobra.Command{

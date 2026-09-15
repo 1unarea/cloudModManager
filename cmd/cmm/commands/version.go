@@ -23,7 +23,7 @@ var versionCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		currentVersion := rootCmd.Version
 		if currentVersion == "" {
-			currentVersion = "0.1.0"
+			currentVersion = "0.2.0"
 		}
 		if !strings.HasPrefix(currentVersion, "v") {
 			currentVersion = "v" + currentVersion

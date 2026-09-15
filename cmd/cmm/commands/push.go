@@ -22,7 +22,7 @@ var pushCmd = &cobra.Command{
 	Long:  `Packages local cmm.lock and optional config/ directory and pushes them to a remote CMM server daemon (cmm serve), triggering remote delta synchronization.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if pushURL == "" {
-			fmt.Fprintf(os.Stderr, "Error: --url <http://server:port> is required for push\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] --url <http://server:port> is required for push\n")
 			os.Exit(1)
 		}
 
@@ -41,14 +41,14 @@ var pushCmd = &cobra.Command{
 			DryRun:        pushDryRun,
 		})
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 			os.Exit(1)
 		}
 
 		if pushDryRun {
-			fmt.Println("[Dry-Run] Remote push simulation result:")
+			fmt.Println("[INFO] [Dry-Run] Remote push simulation result:")
 		} else {
-			fmt.Println("Successfully pushed modpack to remote server.")
+			fmt.Println("[OK] Successfully pushed modpack to remote server.")
 		}
 
 		if res.Message != "" {

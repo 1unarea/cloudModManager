@@ -163,6 +163,17 @@ func TestApp_WindowResize(t *testing.T) {
 	if app.ModsTab.Width != 120 {
 		t.Errorf("Expected ModsTab width 120, got %d", app.ModsTab.Width)
 	}
+
+	// Probe small window dimensions (40x15) to confirm rendering stability without panic
+	m, _ = app.Update(tea.WindowSizeMsg{Width: 40, Height: 15})
+	app = m.(AppModel)
+	if app.Width != 40 || app.Height != 15 {
+		t.Errorf("Expected dimensions 40x15, got %dx%d", app.Width, app.Height)
+	}
+	smallView := app.View()
+	if len(smallView) == 0 {
+		t.Errorf("Expected non-empty view for small window dimensions")
+	}
 }
 
 func TestApp_InvalidConfigPath(t *testing.T) {

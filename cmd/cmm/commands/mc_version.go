@@ -25,7 +25,7 @@ var mcVersionCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cfg, err := config.LoadConfig("cmm.toml")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error: cmm.toml not found. Run 'cmm init' or 'cmm scan' first.\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] cmm.toml not found. Run 'cmm init' or 'cmm scan' first.\n")
 			os.Exit(1)
 		}
 
@@ -40,13 +40,13 @@ var mcVersionCmd = &cobra.Command{
 
 		newVer := strings.TrimSpace(args[0])
 		if !mcVersionRegex.MatchString(newVer) {
-			fmt.Fprintf(os.Stderr, "Error: invalid Minecraft version format '%s'. Example formats: 1.21.1, 1.21.2-rc1, 26.2, 24w14a\n", newVer)
+			fmt.Fprintf(os.Stderr, "[ERROR] Invalid Minecraft version format '%s'. Example formats: 1.21.1, 1.21.2-rc1, 26.2, 24w14a\n", newVer)
 			os.Exit(1)
 		}
 
 		// Process safety check
 		if !mcVersionForce && loader.IsServerOrMinecraftRunning() {
-			fmt.Fprintf(os.Stderr, "Error: Server is currently running. Please stop the server before changing Minecraft version (or use --force).\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] Server is currently running. Please stop the server before changing Minecraft version (or use --force).\n")
 			os.Exit(1)
 		}
 
@@ -56,7 +56,7 @@ var mcVersionCmd = &cobra.Command{
 		}
 
 		if strings.EqualFold(oldVer, newVer) {
-			fmt.Printf("Minecraft version is already set to %s.\n", newVer)
+			fmt.Printf("[INFO] Minecraft version is already set to %s.\n", newVer)
 			return
 		}
 
@@ -77,11 +77,11 @@ var mcVersionCmd = &cobra.Command{
 
 		cfg.Profile.MinecraftVersion = newVer
 		if err := config.SaveConfig("cmm.toml", cfg); err != nil {
-			fmt.Fprintf(os.Stderr, "Error saving cmm.toml: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to save cmm.toml: %v\n", err)
 			os.Exit(1)
 		}
 
-		fmt.Printf("Minecraft version updated to %s in cmm.toml.\n", newVer)
+		fmt.Printf("[OK] Minecraft version updated to %s in cmm.toml.\n", newVer)
 	},
 }
 

@@ -247,7 +247,7 @@ func (t Table) View() string {
 			if colIdx < len(row) {
 				val = row[colIdx]
 			}
-			val = styles.Truncate(val, col.Width, "…")
+			val = styles.Truncate(val, col.Width, "...")
 			val = styles.Pad(val, col.Width, styles.AlignLeft)
 			formattedCols = append(formattedCols, val)
 		}

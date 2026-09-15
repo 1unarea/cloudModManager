@@ -29,12 +29,12 @@ side = "both"
 	res.AssertStdoutContains("Successfully installed Reliable Gliders")
 
 	// Must resolve to human readable mod names and slugs, not raw IDs
-	res.AssertStdoutContains("Notice: Optional dependency available: Cloth Config v13 (cloth-config)")
-	res.AssertStdoutContains("Notice: Optional dependency available: Architectury API (architectury-api)")
-	res.AssertStdoutContains("Notice: Optional dependency available: Cloth Config API (cloth-config-api)")
+	res.AssertStdoutContains("[INFO] Optional dependency available: Cloth Config v13 (cloth-config)")
+	res.AssertStdoutContains("[INFO] Optional dependency available: Architectury API (architectury-api)")
+	res.AssertStdoutContains("[INFO] Optional dependency available: Cloth Config API (cloth-config-api)")
 
 	// Ensure raw IDs are NOT printed standalone without names
-	if strings.Contains(res.Stdout, "Notice: Optional dependency available: 5aaWibi9\n") {
+	if strings.Contains(res.Stdout, "[INFO] Optional dependency available: 5aaWibi9\n") {
 		t.Errorf("expected human readable name instead of raw ID 5aaWibi9")
 	}
 }
@@ -66,9 +66,9 @@ func TestScan_ServerDirectoryAutoDetection(t *testing.T) {
 	res.AssertSuccess()
 	res.AssertStdoutContains("Auto-detected Environment -> Loader: fabric, Minecraft: 1.21.1")
 	res.AssertStdoutContains("Recognized Mods Added/Updated (1):")
-	res.AssertStdoutContains("✓ Sodium")
+	res.AssertStdoutContains("[OK] Sodium")
 	res.AssertStdoutContains("Unrecognized / Custom JARs (1):")
-	res.AssertStdoutContains("⚠️  MyCustomPrivateMod.jar")
+	res.AssertStdoutContains("[WARN] MyCustomPrivateMod.jar")
 	res.AssertStdoutContains("Config directory detected")
 
 	// Verify cmm.toml was created

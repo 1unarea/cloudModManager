@@ -31,7 +31,7 @@ func RenderHelpModal(termWidth, termHeight int) string {
 	})
 
 	addSection("Tab 1: Installed Mods", [][2]string{
-		{"↑ / ↓ / j / k", "Navigate mods list"},
+		{"Up / Down / j / k", "Navigate mods list"},
 		{"p", "Toggle pin/unpin mod status"},
 		{"d / x", "Delete mod (prompts confirmation)"},
 		{"u", "Check for updates & apply"},
@@ -41,14 +41,14 @@ func RenderHelpModal(termWidth, termHeight int) string {
 
 	addSection("Tab 2: Modrinth Search", [][2]string{
 		{"Typing", "Live debounced search"},
-		{"↑ / ↓", "Navigate search results"},
+		{"Up / Down", "Navigate search results"},
 		{"PgUp / PgDn", "Scroll results list"},
 		{"Enter", "Open version picker modal"},
 		{"i", "Install latest compatible version"},
 	})
 
 	addSection("Tab 3: Config Editor", [][2]string{
-		{"↑ / ↓ / Tab", "Navigate between fields"},
+		{"Up / Down / Tab", "Navigate between fields"},
 		{"Space", "Cycle loader / side options"},
 		{"s / Enter", "Validate and save cmm.toml"},
 		{"r", "Reload/discard changes from disk"},
@@ -62,7 +62,7 @@ func RenderHelpModal(termWidth, termHeight int) string {
 		{"s / Enter", "Sync modpack to selected launcher instance (Tab 7)"},
 		{"r", "Rescan launcher instances (Tab 7)"},
 		{"f / d", "Toggle force / dry-run options (Tab 7)"},
-		{"↑ / ↓ / j / k", "Navigate diff & launcher tables / scroll logs"},
+		{"Up / Down / j / k", "Navigate diff & launcher tables / scroll logs"},
 	})
 
 	return RenderModal(

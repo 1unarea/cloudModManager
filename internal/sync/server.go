@@ -620,20 +620,20 @@ func (s *Server) Start() error {
 		}
 	}()
 
-	fmt.Printf("CMM HTTP sync daemon listening on port %d...\n", s.Port)
+	fmt.Printf("[INFO] CMM HTTP sync daemon listening on port %d...\n", s.Port)
 
 	select {
 	case err := <-serverErr:
 		return fmt.Errorf("server error on port %d: %w", s.Port, err)
 	case sig := <-sigChan:
-		fmt.Printf("\nReceived signal %s, initiating graceful shutdown...\n", sig)
+		fmt.Printf("\n[INFO] Received signal %s, initiating graceful shutdown...\n", sig)
 		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 		defer cancel()
 
 		if err := s.httpServer.Shutdown(ctx); err != nil {
 			return fmt.Errorf("graceful shutdown failed: %w", err)
 		}
-		fmt.Println("Server successfully stopped.")
+		fmt.Println("[OK] Server successfully stopped.")
 		return nil
 	}
 }

@@ -27,7 +27,7 @@ func promptString(reader *bufio.Reader, msg, current, defVal string, validate fu
 		if err := validate(current); err == nil {
 			return current
 		}
-		fmt.Printf("Invalid value '%s': %v\n", current, validate(current))
+		fmt.Fprintf(os.Stderr, "[ERROR] Invalid value '%s': %v\n", current, validate(current))
 		current = ""
 	}
 
@@ -44,7 +44,7 @@ func promptString(reader *bufio.Reader, msg, current, defVal string, validate fu
 			if defVal != "" {
 				return defVal
 			}
-			fmt.Printf("Error reading input: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to read input: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -53,7 +53,7 @@ func promptString(reader *bufio.Reader, msg, current, defVal string, validate fu
 		}
 
 		if err := validate(val); err != nil {
-			fmt.Printf("Error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 			continue
 		}
 		return val
@@ -67,12 +67,12 @@ var initCmd = &cobra.Command{
 		configPath := "cmm.toml"
 
 		if _, err := os.Stat(configPath); err == nil {
-			fmt.Fprintf(os.Stderr, "Error: %s already exists\n", configPath)
+			fmt.Fprintf(os.Stderr, "[ERROR] %s already exists\n", configPath)
 			os.Exit(1)
 		}
 
 		if initMCVersion != "" && !strings.ContainsAny(initMCVersion, "0123456789") {
-			fmt.Fprintf(os.Stderr, "Validation error: mc-version must contain a digit\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] Validation error: mc-version must contain a digit\n")
 			os.Exit(1)
 		}
 
@@ -124,11 +124,11 @@ var initCmd = &cobra.Command{
 
 		err := config.SaveConfig(configPath, &cfg)
 		if err != nil {
-			fmt.Printf("Error saving config: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to save config: %v\n", err)
 			os.Exit(1)
 		}
 
-		fmt.Printf("Created %s successfully.\n", configPath)
+		fmt.Printf("[OK] Created %s successfully.\n", configPath)
 
 		// Check for existing mods directory to automatically scan
 		modsPath := cfg.Paths.ModsDir
@@ -143,7 +143,7 @@ var initCmd = &cobra.Command{
 				}
 			}
 			if jarCount > 0 {
-				fmt.Printf("Detected %d existing JAR file(s) in '%s'. Scanning and generating cmm.lock...\n", jarCount, modsPath)
+				fmt.Printf("[INFO] Detected %d existing JAR file(s) in '%s'. Scanning and generating cmm.lock...\n", jarCount, modsPath)
 				client, err := modrinth.NewClient("CloudModManager/1.0 (contact: admin@localhost)")
 				if err == nil {
 					syncEngine := sync.NewLocalSynchronizer(client, configPath, "cmm.lock")
@@ -151,9 +151,9 @@ var initCmd = &cobra.Command{
 						Path: modsPath,
 					})
 					if err != nil {
-						fmt.Printf("Warning: Automatic scan encountered an issue: %v\n", err)
+						fmt.Fprintf(os.Stderr, "[WARN] Automatic scan encountered an issue: %v\n", err)
 					} else {
-						fmt.Printf("Successfully scanned and matched %d mod(s) in cmm.lock.\n", len(res.AddedMods))
+						fmt.Printf("[OK] Successfully scanned and matched %d mod(s) in cmm.lock.\n", len(res.AddedMods))
 					}
 				}
 			}

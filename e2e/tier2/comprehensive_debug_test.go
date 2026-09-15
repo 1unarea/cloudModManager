@@ -244,7 +244,7 @@ mods_dir = "mods"
 
 	res := ctx.Run("sync", "local")
 	res.AssertSuccess()
-	res.AssertStdoutContains("Warning: Unrecognized JAR file:")
+	res.AssertStdoutContains("[WARN] Unrecognized JAR file:")
 	res.AssertStdoutContains("Successfully synchronized")
 }
 

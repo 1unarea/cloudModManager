@@ -60,7 +60,7 @@ func TestCLI_SyncLocal_Adversarial(t *testing.T) {
 	ctx.WriteFile("mods/unrecognized_mod_99.jar", "unknown")
 	res = ctx.Run("sync", "local")
 	res.AssertSuccess()
-	res.AssertStdoutContains("Warning: Unrecognized JAR file: unrecognized_mod_99.jar (unknown)")
+	res.AssertStdoutContains("[WARN] Unrecognized JAR file: unrecognized_mod_99.jar (unknown)")
 }
 
 // 2. R2 Modrinth / .mrpack Sync Adversarial E2E Tests

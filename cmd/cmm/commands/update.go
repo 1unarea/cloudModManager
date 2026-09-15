@@ -28,16 +28,16 @@ var updateCmd = &cobra.Command{
 			channel = "release"
 		}
 		if channel != "release" && channel != "beta" && channel != "alpha" {
-			fmt.Fprintf(os.Stderr, "Error: invalid channel '%s'. Choose from: release, beta, alpha\n", updateChannel)
+			fmt.Fprintf(os.Stderr, "[ERROR] Invalid channel '%s'. Choose from: release, beta, alpha\n", updateChannel)
 			os.Exit(1)
 		}
 
-		fmt.Printf("🔍 Checking for updates... [Channel: %s]\n", channel)
+		fmt.Printf("[INFO] Checking for updates... [Channel: %s]\n", channel)
 
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -45,16 +45,16 @@ var updateCmd = &cobra.Command{
 
 		candidates, skippedPinned, err := mgr.CheckUpdatesMulti(args, channel, updateForce)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error checking updates: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to check updates: %v\n", err)
 			os.Exit(1)
 		}
 
 		for _, s := range skippedPinned {
-			fmt.Printf("Skipping pinned mod '%s' - use --force to update (skipped)\n", s)
+			fmt.Printf("[WARN] Skipping pinned mod '%s' - use --force to update (skipped)\n", s)
 		}
 
 		if len(candidates) == 0 {
-			fmt.Println("All mods are up to date.")
+			fmt.Println("[INFO] All mods are up to date.")
 		} else {
 			fmt.Printf("Found %d available update(s):\n\n", len(candidates))
 			for _, c := range candidates {
@@ -88,17 +88,17 @@ var updateCmd = &cobra.Command{
 			}
 
 			if err := mgr.ApplyUpdates(candidates); err != nil {
-				fmt.Fprintf(os.Stderr, "Error applying updates: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to apply updates: %v\n", err)
 				os.Exit(1)
 			}
 
-			fmt.Println("Successfully updated mods.")
+			fmt.Println("[OK] Successfully updated mods.")
 		}
 
 		// Notice: Check if a newer Loader version is available
 		if cfg, err := config.LoadConfig("cmm.toml"); err == nil && cfg.Profile.Loader != "" {
 			if latestVer, available, _ := loader.CheckLatestLoaderVersion(cfg.Profile.Loader, cfg.Profile.LoaderVersion); available {
-				fmt.Printf("\nNotice: A new %s Loader version is available (v%s). Run: cmm loader update\n", strings.Title(cfg.Profile.Loader), latestVer)
+				fmt.Printf("\n[INFO] A new %s Loader version is available (v%s). Run: cmm loader update\n", strings.Title(cfg.Profile.Loader), latestVer)
 			}
 		}
 	},

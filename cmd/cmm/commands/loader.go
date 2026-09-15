@@ -33,7 +33,7 @@ var loaderListCmd = &cobra.Command{
 
 		loaders, err := loader.ListLoaders(targetLoader)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error listing loaders: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to list loaders: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -59,19 +59,19 @@ var loaderInstallCmd = &cobra.Command{
 		targetLoader := args[0]
 
 		if !loaderForce && loader.IsServerOrMinecraftRunning() {
-			fmt.Fprintf(os.Stderr, "Error: Server is currently running. Please stop the server before installing the loader (or use --force).\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] Server is currently running. Please stop the server before installing the loader (or use --force).\n")
 			os.Exit(1)
 		}
 
 		if err := loader.InstallLoader("cmm.toml", targetLoader, loaderVersion); err != nil {
-			fmt.Fprintf(os.Stderr, "Error installing loader version: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to install loader version: %v\n", err)
 			os.Exit(1)
 		}
 
 		if loaderVersion != "" {
-			fmt.Printf("Successfully configured loader '%s' (version %s) in cmm.toml\n", targetLoader, loaderVersion)
+			fmt.Printf("[OK] Successfully configured loader '%s' (version %s) in cmm.toml\n", targetLoader, loaderVersion)
 		} else {
-			fmt.Printf("Successfully configured loader '%s' in cmm.toml\n", targetLoader)
+			fmt.Printf("[OK] Successfully configured loader '%s' in cmm.toml\n", targetLoader)
 		}
 	},
 }
@@ -82,25 +82,25 @@ var loaderUpdateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cfg, err := config.LoadConfig("cmm.toml")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error: cmm.toml not found. Run 'cmm init' or 'cmm scan' first.\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] cmm.toml not found. Run 'cmm init' or 'cmm scan' first.\n")
 			os.Exit(1)
 		}
 
 		targetLoader := strings.ToLower(cfg.Profile.Loader)
 		if targetLoader == "" {
-			fmt.Fprintf(os.Stderr, "Error: No loader configured in cmm.toml.\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] No loader configured in cmm.toml.\n")
 			os.Exit(1)
 		}
 
 		// Process safety check
 		if !loaderForce && loader.IsServerOrMinecraftRunning() {
-			fmt.Fprintf(os.Stderr, "Error: Server is currently running. Please stop the server before updating the loader (or use --force).\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] Server is currently running. Please stop the server before updating the loader (or use --force).\n")
 			os.Exit(1)
 		}
 
 		latestVer, available, err := loader.CheckLatestLoaderVersion(targetLoader, cfg.Profile.LoaderVersion)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error checking loader updates: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to check loader updates: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -109,7 +109,7 @@ var loaderUpdateCmd = &cobra.Command{
 			if currVer == "" {
 				currVer = "latest"
 			}
-			fmt.Printf("%s Loader is already up to date (%s).\n", strings.Title(targetLoader), currVer)
+			fmt.Printf("[INFO] %s Loader is already up to date (%s).\n", strings.Title(targetLoader), currVer)
 			return
 		}
 
@@ -136,11 +136,11 @@ var loaderUpdateCmd = &cobra.Command{
 		}
 
 		if err := loader.InstallLoader("cmm.toml", targetLoader, latestVer); err != nil {
-			fmt.Fprintf(os.Stderr, "Error updating loader: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to update loader: %v\n", err)
 			os.Exit(1)
 		}
 
-		fmt.Printf("✅ Successfully updated %s Loader to v%s in cmm.toml\n", strings.Title(targetLoader), latestVer)
+		fmt.Printf("[OK] Successfully updated %s Loader to v%s in cmm.toml\n", strings.Title(targetLoader), latestVer)
 	},
 }
 

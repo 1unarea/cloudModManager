@@ -7,18 +7,18 @@
 ## Feature Inventory & Test Mapping
 | # | Feature | Source | Tier 1 | Tier 2 | Tier 3 | Tier 4 |
 |---|---------|--------|:------:|:------:|:------:|:------:|
-| 1 | Lockfile Disabled Schema & State | ORIGINAL_REQUEST §R1 | ✓ | ✓ | ✓ | ✓ |
-| 2 | Mod Disable Operation (`.jar` -> `.jar.disabled`) | ORIGINAL_REQUEST §R1 | ✓ | ✓ | ✓ | ✓ |
-| 3 | Mod Enable Operation (`.jar.disabled` -> `.jar`) | ORIGINAL_REQUEST §R1 | ✓ | ✓ | ✓ | ✓ |
-| 4 | Active Dependents Safety & Force Override | ORIGINAL_REQUEST §R1 | ✓ | ✓ | ✓ | ✓ |
-| 5 | Graceful Notice for Idempotent Enable/Disable | ORIGINAL_REQUEST §Acceptance | ✓ | ✓ | ✓ | ✓ |
-| 6 | `cmm disable` CLI Command & Dry-Run | ORIGINAL_REQUEST §R2 | ✓ | ✓ | ✓ | ✓ |
-| 7 | `cmm enable` CLI Command & Dry-Run | ORIGINAL_REQUEST §R2 | ✓ | ✓ | ✓ | ✓ |
-| 8 | `cmm list` Table & JSON Disabled Display | ORIGINAL_REQUEST §R2 | ✓ | ✓ | ✓ | ✓ |
-| 9 | `cmm scan` / `sync local` Dual Extension Discovery | ORIGINAL_REQUEST §R3 | ✓ | ✓ | ✓ | ✓ |
-| 10 | Scanner Lockfile State Persistence | ORIGINAL_REQUEST §R3 | ✓ | ✓ | ✓ | ✓ |
-| 11 | Push & Diff Synchronization Preservation | ORIGINAL_REQUEST §R3 | ✓ | ✓ | ✓ | ✓ |
-| 12 | TUI Hotkeys (`e`, `Space`), Badges & Modals | ORIGINAL_REQUEST §R4 | ✓ | ✓ | ✓ | ✓ |
+| 1 | Lockfile Disabled Schema & State | ORIGINAL_REQUEST §R1 | OK | OK | OK | OK |
+| 2 | Mod Disable Operation (`.jar` -> `.jar.disabled`) | ORIGINAL_REQUEST §R1 | OK | OK | OK | OK |
+| 3 | Mod Enable Operation (`.jar.disabled` -> `.jar`) | ORIGINAL_REQUEST §R1 | OK | OK | OK | OK |
+| 4 | Active Dependents Safety & Force Override | ORIGINAL_REQUEST §R1 | OK | OK | OK | OK |
+| 5 | Graceful Notice for Idempotent Enable/Disable | ORIGINAL_REQUEST §Acceptance | OK | OK | OK | OK |
+| 6 | `cmm disable` CLI Command & Dry-Run | ORIGINAL_REQUEST §R2 | OK | OK | OK | OK |
+| 7 | `cmm enable` CLI Command & Dry-Run | ORIGINAL_REQUEST §R2 | OK | OK | OK | OK |
+| 8 | `cmm list` Table & JSON Disabled Display | ORIGINAL_REQUEST §R2 | OK | OK | OK | OK |
+| 9 | `cmm scan` / `sync local` Dual Extension Discovery | ORIGINAL_REQUEST §R3 | OK | OK | OK | OK |
+| 10 | Scanner Lockfile State Persistence | ORIGINAL_REQUEST §R3 | OK | OK | OK | OK |
+| 11 | Push & Diff Synchronization Preservation | ORIGINAL_REQUEST §R3 | OK | OK | OK | OK |
+| 12 | TUI Hotkeys (`e`, `Space`), Badges & Modals | ORIGINAL_REQUEST §R4 | OK | OK | OK | OK |
 
 ## Test Architecture
 - **Harness**: `e2e/harness/` provides `TestContext`, isolated `t.TempDir()`, Mock Modrinth API server, and CLI execution helpers.

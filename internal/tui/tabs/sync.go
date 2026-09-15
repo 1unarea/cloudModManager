@@ -639,20 +639,20 @@ func (m SyncModel) Update(msg tea.Msg) (SyncModel, tea.Cmd) {
 				if msg.Result.Message != "" {
 					logSb.WriteString("Message: " + msg.Result.Message + "\n")
 				}
-				logSb.WriteString(fmt.Sprintf("  • Added Mods:    %d\n", len(msg.Result.AddedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Added Mods:    %d\n", len(msg.Result.AddedMods)))
 				for _, mod := range msg.Result.AddedMods {
 					logSb.WriteString(fmt.Sprintf("    + %s\n", mod))
 				}
-				logSb.WriteString(fmt.Sprintf("  • Updated Mods:  %d\n", len(msg.Result.UpdatedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Updated Mods:  %d\n", len(msg.Result.UpdatedMods)))
 				for _, mod := range msg.Result.UpdatedMods {
 					logSb.WriteString(fmt.Sprintf("    ~ %s\n", mod))
 				}
-				logSb.WriteString(fmt.Sprintf("  • Removed Mods:  %d\n", len(msg.Result.RemovedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Removed Mods:  %d\n", len(msg.Result.RemovedMods)))
 				for _, mod := range msg.Result.RemovedMods {
 					logSb.WriteString(fmt.Sprintf("    - %s\n", mod))
 				}
 				if len(msg.Result.UnknownJars) > 0 {
-					logSb.WriteString(fmt.Sprintf("  • Unknown JARs:  %d\n", len(msg.Result.UnknownJars)))
+					logSb.WriteString(fmt.Sprintf("  - Unknown JARs:  %d\n", len(msg.Result.UnknownJars)))
 					for _, jar := range msg.Result.UnknownJars {
 						logSb.WriteString(fmt.Sprintf("    ? %s\n", jar))
 					}
@@ -681,19 +681,19 @@ func (m SyncModel) Update(msg tea.Msg) (SyncModel, tea.Cmd) {
 				if msg.Result.Message != "" {
 					logSb.WriteString("Server Response: " + msg.Result.Message + "\n")
 				}
-				logSb.WriteString(fmt.Sprintf("  • Added Mods:      %d\n", len(msg.Result.AddedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Added Mods:      %d\n", len(msg.Result.AddedMods)))
 				for _, mod := range msg.Result.AddedMods {
 					logSb.WriteString(fmt.Sprintf("    + %s\n", mod))
 				}
-				logSb.WriteString(fmt.Sprintf("  • Updated Mods:    %d\n", len(msg.Result.UpdatedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Updated Mods:    %d\n", len(msg.Result.UpdatedMods)))
 				for _, mod := range msg.Result.UpdatedMods {
 					logSb.WriteString(fmt.Sprintf("    ~ %s\n", mod))
 				}
-				logSb.WriteString(fmt.Sprintf("  • Pruned Mods:     %d\n", len(msg.Result.PrunedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Pruned Mods:     %d\n", len(msg.Result.PrunedMods)))
 				for _, mod := range msg.Result.PrunedMods {
 					logSb.WriteString(fmt.Sprintf("    - %s\n", mod))
 				}
-				logSb.WriteString(fmt.Sprintf("  • Configs Updated: %d\n", msg.Result.ConfigsUpdated))
+				logSb.WriteString(fmt.Sprintf("  - Configs Updated: %d\n", msg.Result.ConfigsUpdated))
 			}
 			m.LogsViewport.Append(logSb.String())
 		}
@@ -714,12 +714,12 @@ func (m SyncModel) Update(msg tea.Msg) (SyncModel, tea.Cmd) {
 			var logSb strings.Builder
 			logSb.WriteString(styles.StatusSuccess.Render(fmt.Sprintf("=== Diff Comparison: %s ===", msg.Result.Target)))
 			logSb.WriteString("\n")
-			logSb.WriteString(fmt.Sprintf("  • Total Mods:     %d\n", msg.Result.Total))
-			logSb.WriteString(fmt.Sprintf("  • Synchronized:   %d\n", msg.Result.Synchronized))
-			logSb.WriteString(fmt.Sprintf("  • Mismatches:     %d\n", msg.Result.Mismatches))
-			logSb.WriteString(fmt.Sprintf("  • Client-Only:    %d\n", msg.Result.ClientOnly))
-			logSb.WriteString(fmt.Sprintf("  • Server-Only:    %d\n", msg.Result.ServerOnly))
-			logSb.WriteString(fmt.Sprintf("  • Missing:        %d\n", msg.Result.Missing))
+			logSb.WriteString(fmt.Sprintf("  - Total Mods:     %d\n", msg.Result.Total))
+			logSb.WriteString(fmt.Sprintf("  - Synchronized:   %d\n", msg.Result.Synchronized))
+			logSb.WriteString(fmt.Sprintf("  - Mismatches:     %d\n", msg.Result.Mismatches))
+			logSb.WriteString(fmt.Sprintf("  - Client-Only:    %d\n", msg.Result.ClientOnly))
+			logSb.WriteString(fmt.Sprintf("  - Server-Only:    %d\n", msg.Result.ServerOnly))
+			logSb.WriteString(fmt.Sprintf("  - Missing:        %d\n", msg.Result.Missing))
 			m.LogsViewport.Append(logSb.String())
 
 			// Focus diff table so user can scroll immediately
@@ -744,20 +744,20 @@ func (m SyncModel) Update(msg tea.Msg) (SyncModel, tea.Cmd) {
 			if msg.Result.Message != "" {
 				logSb.WriteString("Message: " + msg.Result.Message + "\n")
 			}
-			logSb.WriteString(fmt.Sprintf("  • Added Mods:    %d\n", len(msg.Result.AddedMods)))
+			logSb.WriteString(fmt.Sprintf("  - Added Mods:    %d\n", len(msg.Result.AddedMods)))
 			for _, mod := range msg.Result.AddedMods {
 				logSb.WriteString(fmt.Sprintf("    + %s\n", mod))
 			}
-			logSb.WriteString(fmt.Sprintf("  • Updated Mods:  %d\n", len(msg.Result.UpdatedMods)))
+			logSb.WriteString(fmt.Sprintf("  - Updated Mods:  %d\n", len(msg.Result.UpdatedMods)))
 			for _, mod := range msg.Result.UpdatedMods {
 				logSb.WriteString(fmt.Sprintf("    ~ %s\n", mod))
 			}
-			logSb.WriteString(fmt.Sprintf("  • Removed Mods:  %d\n", len(msg.Result.RemovedMods)))
+			logSb.WriteString(fmt.Sprintf("  - Removed Mods:  %d\n", len(msg.Result.RemovedMods)))
 			for _, mod := range msg.Result.RemovedMods {
 				logSb.WriteString(fmt.Sprintf("    - %s\n", mod))
 			}
 			if len(msg.Result.SkippedMods) > 0 {
-				logSb.WriteString(fmt.Sprintf("  • Skipped Server Mods: %d\n", len(msg.Result.SkippedMods)))
+				logSb.WriteString(fmt.Sprintf("  - Skipped Server Mods: %d\n", len(msg.Result.SkippedMods)))
 				for _, mod := range msg.Result.SkippedMods {
 					logSb.WriteString(fmt.Sprintf("    * %s (server only)\n", mod))
 				}
@@ -1247,7 +1247,7 @@ func (m SyncModel) View() string {
 			dryRunBox = styles.BadgeUpdate.Render("[X]")
 		}
 
-		optStr := fmt.Sprintf("Options: %s Force [f]   %s Dry run [d]   •   Actions: [s/Enter] Sync   [r] Rescan Launchers",
+		optStr := fmt.Sprintf("Options: %s Force [f]   %s Dry run [d]   |   Actions: [s/Enter] Sync   [r] Rescan Launchers",
 			forceBox, dryRunBox)
 		sb.WriteString(styles.HelpDescStyle.Render(optStr))
 		sb.WriteString("\n\n")

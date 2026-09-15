@@ -31,19 +31,19 @@ var versionCmd = &cobra.Command{
 
 		fmt.Printf("Cloud Mod Manager %s (%s/%s)\n", currentVersion, runtime.GOOS, runtime.GOARCH)
 
-		fmt.Println("🔍 Checking for updates...")
+		fmt.Println("[INFO] Checking for updates...")
 		rel, updateAvailable, err := selfupdate.CheckUpdate("aegeada/cloudModManager", currentVersion)
 		if err != nil {
-			fmt.Printf("ℹ️  (Could not check for updates: %v)\n", err)
+			fmt.Printf("[INFO] (Could not check for updates: %v)\n", err)
 			return
 		}
 
 		if !updateAvailable {
-			fmt.Printf("✅ Cloud Mod Manager is up to date (%s).\n", currentVersion)
+			fmt.Printf("[OK] Cloud Mod Manager is up to date (%s).\n", currentVersion)
 			return
 		}
 
-		fmt.Printf("\n🚀 A new version of Cloud Mod Manager is available: %s (Current: %s)\n", rel.TagName, currentVersion)
+		fmt.Printf("\n[INFO] A new version of Cloud Mod Manager is available: %s (Current: %s)\n", rel.TagName, currentVersion)
 		if rel.HTMLURL != "" {
 			fmt.Printf("Release details: %s\n", rel.HTMLURL)
 		}
@@ -70,13 +70,13 @@ var versionCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("⬇️  Downloading and installing %s...\n", rel.TagName)
+		fmt.Printf("[INFO] Downloading and installing %s...\n", rel.TagName)
 		if err := selfupdate.ApplyUpdate(rel); err != nil {
-			fmt.Fprintf(os.Stderr, "Error updating cmm: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to update cmm: %v\n", err)
 			os.Exit(1)
 		}
 
-		fmt.Printf("✨ Successfully updated Cloud Mod Manager to %s!\n", rel.TagName)
+		fmt.Printf("[OK] Successfully updated Cloud Mod Manager to %s!\n", rel.TagName)
 	},
 }
 

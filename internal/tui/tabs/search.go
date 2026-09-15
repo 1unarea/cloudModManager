@@ -414,7 +414,7 @@ func (m SearchModel) View() string {
 		var content strings.Builder
 		content.WriteString(fmt.Sprintf("Select compatible version for %s:\n\n", styles.New().Bold(true).Foreground(styles.ColorCyan).Render(m.SelectedHit.Title)))
 		content.WriteString(m.VersionTable.View())
-		return components.RenderModal("Version Picker", content.String(), "[Enter/i] Install Selected  •  [Esc] Cancel", 74, 16, m.Width, m.Height)
+		return components.RenderModal("Version Picker", content.String(), "[Enter/i] Install Selected | [Esc] Cancel", 74, 16, m.Width, m.Height)
 	}
 
 	var sb strings.Builder

@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"cmm/internal/modrinth"
 	"cmm/internal/sync"
@@ -27,7 +28,7 @@ var syncCmd = &cobra.Command{
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -39,13 +40,13 @@ var syncCmd = &cobra.Command{
 				Token: syncToken,
 			})
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error syncing with remote server: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to sync with remote server: %v\n", err)
 				os.Exit(1)
 			}
 			if res.UpToDate {
-				fmt.Println(res.Message)
+				printSyncMessage(res.Message)
 			} else {
-				fmt.Println("Successfully synchronized with remote server.")
+				fmt.Println("[OK] Successfully synchronized with remote server.")
 			}
 			return
 		}
@@ -59,13 +60,13 @@ var syncCmd = &cobra.Command{
 				Token:  syncToken,
 			})
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 				os.Exit(1)
 			}
 			if res.UpToDate {
-				fmt.Println(res.Message)
+				printSyncMessage(res.Message)
 			} else {
-				fmt.Println("Successfully synchronized with GitHub repository.")
+				fmt.Println("[OK] Successfully synchronized with GitHub repository.")
 			}
 			return
 		}
@@ -78,10 +79,10 @@ var syncCmd = &cobra.Command{
 				FilePath: syncFile,
 			})
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 				os.Exit(1)
 			}
-			fmt.Println("Successfully synchronized with Modrinth modpack.")
+			fmt.Println("[OK] Successfully synchronized with Modrinth modpack.")
 			return
 		}
 
@@ -91,7 +92,7 @@ var syncCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Fprintf(os.Stderr, "Error: unknown sync source or invalid flags\n")
+		fmt.Fprintf(os.Stderr, "[ERROR] Unknown sync source or invalid flags\n")
 		os.Exit(1)
 	},
 }
@@ -103,31 +104,42 @@ var syncLocalCmd = &cobra.Command{
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 		runLocalSync(client, syncPath)
 	},
 }
 
+func printSyncMessage(msg string) {
+	if msg == "" {
+		return
+	}
+	if strings.HasPrefix(msg, "[") {
+		fmt.Println(msg)
+	} else {
+		fmt.Printf("[INFO] %s\n", msg)
+	}
+}
+
 func runLocalSync(client *modrinth.Client, path string) {
 	syncer := sync.NewLocalSynchronizer(client, "cmm.toml", "cmm.lock")
 	res, err := syncer.Sync(sync.LocalSyncOptions{Path: path})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 		os.Exit(1)
 	}
 
 	if res.Message != "" {
-		fmt.Println(res.Message)
+		printSyncMessage(res.Message)
 		return
 	}
 
 	for _, jar := range res.UnknownJars {
-		fmt.Printf("Warning: Unrecognized JAR file: %s (unknown)\n", jar)
+		fmt.Printf("[WARN] Unrecognized JAR file: %s (unknown)\n", jar)
 	}
 
-	fmt.Printf("Successfully synchronized %d mods.\n", len(res.AddedMods))
+	fmt.Printf("[OK] Successfully synchronized %d mods.\n", len(res.AddedMods))
 }
 
 func init() {

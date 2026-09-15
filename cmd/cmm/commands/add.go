@@ -52,14 +52,14 @@ var addCmd = &cobra.Command{
 			channel = "release"
 		}
 		if channel != "release" && channel != "beta" && channel != "alpha" {
-			fmt.Fprintf(os.Stderr, "Error: invalid channel '%s'. Choose from: release, beta, alpha\n", addChannel)
+			fmt.Fprintf(os.Stderr, "[ERROR] Invalid channel '%s'. Choose from: release, beta, alpha\n", addChannel)
 			os.Exit(1)
 		}
 
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -103,11 +103,11 @@ var addCmd = &cobra.Command{
 			}
 			var plans []batchPlan
 
-			fmt.Printf("🔍 Resolving %d mod(s) [Channel: %s]...\n", len(args), channel)
+			fmt.Printf("[INFO] Resolving %d mod(s) [Channel: %s]...\n", len(args), channel)
 			for _, slug := range args {
 				versions, proj, err := mgr.GetCompatibleVersions(slug, channel)
 				if err != nil || len(versions) == 0 {
-					fmt.Fprintf(os.Stderr, "⚠️  Could not find compatible %s versions for '%s': %v\n", channel, slug, err)
+					fmt.Fprintf(os.Stderr, "[WARN] Could not find compatible %s versions for '%s': %v\n", channel, slug, err)
 					continue
 				}
 				latest := versions[0]
@@ -143,7 +143,7 @@ var addCmd = &cobra.Command{
 				return
 			}
 
-			fmt.Printf("\n📦 Preparing to install %d mod(s) [Channel: %s]:\n", len(plans), channel)
+			fmt.Printf("\n[INFO] Preparing to install %d mod(s) [Channel: %s]:\n", len(plans), channel)
 			for _, p := range plans {
 				if p.isReplace {
 					fmt.Printf("- %s (%s) -> %s (%s) [REPLACING existing %s]\n", p.projTitle, p.slug, p.verNumber, p.fileName, p.curVer)
@@ -161,13 +161,13 @@ var addCmd = &cobra.Command{
 			for _, p := range plans {
 				res, err := mgr.AddWithChannelAndReplace(p.slug, p.verNumber, channel, p.isReplace)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Error installing '%s': %v\n", p.slug, err)
+					fmt.Fprintf(os.Stderr, "[ERROR] Failed to install '%s': %v\n", p.slug, err)
 					continue
 				}
 				if res.Replaced {
-					fmt.Printf("🔄 Successfully upgraded/replaced %s (%s)\n", p.projTitle, p.verNumber)
+					fmt.Printf("[OK] Successfully upgraded/replaced %s (%s)\n", p.projTitle, p.verNumber)
 				} else if res.InstalledMod != nil {
-					fmt.Printf("✅ Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
+					fmt.Printf("[OK] Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
 				}
 			}
 			return
@@ -203,7 +203,7 @@ var addCmd = &cobra.Command{
 			isReplace := false
 			if existing != nil {
 				isReplace = true
-				prompt := fmt.Sprintf("⚠️  Mod '%s' is already installed (Current: %s, Target: %s).\nReplace installed version with %s? [y/N]: ",
+				prompt := fmt.Sprintf("[WARN] Mod '%s' is already installed (Current: %s, Target: %s).\nReplace installed version with %s? [y/N]: ",
 					targetTitle, existing.GetVersion(), addVersion, addVersion)
 				if !askConfirm(prompt, false) {
 					fmt.Println("Installation cancelled.")
@@ -224,13 +224,13 @@ var addCmd = &cobra.Command{
 
 			res, err := mgr.AddWithChannelAndReplace(slug, addVersion, channel, isReplace)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error adding mod '%s': %v\n", slug, err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to add mod '%s': %v\n", slug, err)
 				os.Exit(1)
 			}
 			if res.Replaced {
-				fmt.Printf("🔄 Successfully replaced %s with version %s\n", targetTitle, addVersion)
+				fmt.Printf("[OK] Successfully replaced %s with version %s\n", targetTitle, addVersion)
 			} else if res.InstalledMod != nil {
-				fmt.Printf("✅ Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
+				fmt.Printf("[OK] Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
 			}
 			return
 		}
@@ -238,7 +238,7 @@ var addCmd = &cobra.Command{
 		// 2. Interactive pagination if version is not specified
 		versions, proj, err := mgr.GetCompatibleVersions(slug, channel)
 		if err != nil || len(versions) == 0 {
-			fmt.Fprintf(os.Stderr, "Error: No compatible %s versions found for '%s'. Try --channel beta or --channel alpha.\n", channel, slug)
+			fmt.Fprintf(os.Stderr, "[ERROR] No compatible %s versions found for '%s'. Try --channel beta or --channel alpha.\n", channel, slug)
 			os.Exit(1)
 		}
 
@@ -261,7 +261,7 @@ var addCmd = &cobra.Command{
 				end = totalVersions
 			}
 
-			fmt.Printf("\n🔍 Available versions for %s (%s) [Channel: %s, Total: %d]:\n\n",
+			fmt.Printf("\n[INFO] Available versions for %s (%s) [Channel: %s, Total: %d]:\n\n",
 				targetTitle, slug, channel, totalVersions)
 
 			for i := start; i < end; i++ {
@@ -341,7 +341,7 @@ var addCmd = &cobra.Command{
 		isReplace := false
 		if existing != nil {
 			isReplace = true
-			prompt := fmt.Sprintf("⚠️  Mod '%s' is already installed (Current: %s, Target: %s).\nReplace installed version with %s (%s)? [y/N]: ",
+			prompt := fmt.Sprintf("[WARN] Mod '%s' is already installed (Current: %s, Target: %s).\nReplace installed version with %s (%s)? [y/N]: ",
 				targetTitle, existing.GetVersion(), selectedVersion.VersionNumber, selectedVersion.VersionNumber, targetFileName)
 			if !askConfirm(prompt, false) {
 				fmt.Println("Installation cancelled.")
@@ -357,20 +357,20 @@ var addCmd = &cobra.Command{
 
 		res, err := mgr.AddWithChannelAndReplace(slug, selectedVersion.VersionNumber, channel, isReplace)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error installing mod '%s': %v\n", slug, err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to install mod '%s': %v\n", slug, err)
 			os.Exit(1)
 		}
 
 		if res.Replaced {
-			fmt.Printf("🔄 Successfully replaced %s with version %s (%s)\n", targetTitle, selectedVersion.VersionNumber, targetFileName)
+			fmt.Printf("[OK] Successfully replaced %s with version %s (%s)\n", targetTitle, selectedVersion.VersionNumber, targetFileName)
 		} else if res.InstalledMod != nil {
-			fmt.Printf("✅ Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
+			fmt.Printf("[OK] Successfully installed %s (%s)\n", res.InstalledMod.Name, res.InstalledMod.GetVersion())
 		}
 		for _, dep := range res.InstalledDeps {
-			fmt.Printf("  -> Installed dependency: %s (%s)\n", dep.Name, dep.GetVersion())
+			fmt.Printf("  - Installed dependency: %s (%s)\n", dep.Name, dep.GetVersion())
 		}
 		for _, opt := range res.OptionalDeps {
-			fmt.Printf("Notice: Optional dependency available: %s\n", opt)
+			fmt.Printf("[INFO] Optional dependency available: %s\n", opt)
 		}
 	},
 }

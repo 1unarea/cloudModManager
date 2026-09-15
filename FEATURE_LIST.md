@@ -1,4 +1,4 @@
-# 📋 Cloud Mod Manager (`cmm`) — Detaylı Özellik Listesi ve Teknik Tasarım Planı (Feature List)
+# Cloud Mod Manager (`cmm`) — Detaylı Özellik Listesi ve Teknik Tasarım Planı (Feature List)
 
 Bu doküman, Cloud Mod Manager (`cmm`) projesine eklenecek olan 8 yeni özelliğin mimari tasarımını, komut sözdizimlerini, kullanıcı deneyimi (UX) akışlarını, uç durum (edge-case) yönetimlerini ve teknik detaylarını kapsamaktadır.
 
@@ -6,22 +6,22 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
 
 ---
 
-## 📑 İçindekiler
-1. [Grup 1: Gelişmiş Mod ve Sürüm Yönetimi (`cmm update` & `cmm install`)](#-grup-1-gelişmiş-mod-ve-sürüm-yönetimi-cmm-update--cmm-install)
+## İçindekiler
+1. [Grup 1: Gelişmiş Mod ve Sürüm Yönetimi (`cmm update` & `cmm install`)](#grup-1-gelişmiş-mod-ve-sürüm-yönetimi-cmm-update--cmm-install)
    - [1.1. `cmm update` Geliştirmeleri (Slug Gösterimi, Kanal Filtresi, Çoklu Slug ve Toplu Onay)](#11-cmm-update-geliştirmeleri)
    - [1.2. `cmm install` / `cmm add` Sürüm Yönetimi ve Çoklu Kurulum](#12-cmm-install--cmm-add-sürüm-yönetimi-ve-çoklu-kurulum)
-2. [Grup 2: Akıllı Sunucu Taraması ve Kesin Sürüm Tespiti (`cmm scan`)](#-grup-2-akıllı-sunucu-taraması-ve-kesin-sürüm-tespiti-cmm-scan)
+2. [Grup 2: Akıllı Sunucu Taraması ve Kesin Sürüm Tespiti (`cmm scan`)](#grup-2-akıllı-sunucu-taraması-ve-kesin-sürüm-tespiti-cmm-scan)
    - [2.1. Çok Katmanlı Kesin Sürüm (Minecraft & Loader) Tespiti ve Onay Döngüsü](#21-çok-katmanlı-kesin-sürüm-minecraft--loader-tespiti-ve-onay-döngüsü)
    - [2.2. Tarama ve Güncelleme Sırasında Pasif Loader Bildirimi](#22-tarama-ve-güncelleme-sırasında-pasif-loader-bildirimi)
-3. [Grup 3: Yükleyici (Loader) ve Temel Ortam Yönetimi (`cmm loader` & `cmm mc-version`)](#-grup-3-yükleyici-loader-ve-temel-ortam-yönetimi-cmm-loader--cmm-mc-version)
+3. [Grup 3: Yükleyici (Loader) ve Temel Ortam Yönetimi (`cmm loader` & `cmm mc-version`)](#grup-3-yükleyici-loader-ve-temel-ortam-yönetimi-cmm-loader--cmm-mc-version)
    - [3.1. `cmm loader update` Komutu ve Süreç Güvenlik Kilidi (Process Safety Check)](#31-cmm-loader-update-komutu-ve-süreç-güvenlik-kilidi)
    - [3.2. `cmm mc-version` Komutu (Görüntüleme, Doğrulama ve Güncelleme)](#32-cmm-mc-version-komutu)
-4. [Teknik Mimari ve Veri Yapıları Değişiklikleri](#-teknik-mimari-ve-veri-yapıları-değişiklikleri)
-5. [Uç Durumlar (Edge Cases) ve Hata Yönetimi](#-uç-durumlar-edge-cases-ve-hata-yönetimi)
+4. [Teknik Mimari ve Veri Yapıları Değişiklikleri](#teknik-mimari-ve-veri-yapıları-değişiklikleri)
+5. [Uç Durumlar (Edge Cases) ve Hata Yönetimi](#uç-durumlar-edge-cases-ve-hata-yönetimi)
 
 ---
 
-## 🚀 Grup 1: Gelişmiş Mod ve Sürüm Yönetimi (`cmm update` & `cmm install`)
+## Grup 1: Gelişmiş Mod ve Sürüm Yönetimi (`cmm update` & `cmm install`)
 
 ### 1.1. `cmm update` Geliştirmeleri
 
@@ -45,7 +45,7 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
 - **Başlık Gösterimi**: Komut çalıştırıldığında çıktının en başında hangi kanalın aktif olduğu açıkça belirtilir.
 - **Örnek Çıktı**:
   ```text
-  🔍 Checking for updates... [Channel: release]
+  [INFO] Checking for updates... [Channel: release]
   Found 2 available update(s):
 
   - Sodium (sodium): 0.5.8 -> 0.5.11
@@ -79,7 +79,7 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
   - Kullanıcı sürüm numarasını seçebilir, `n` (sonraki sayfa) veya `p` (önceki sayfa) ile gezinebilir.
 - **Örnek Terminal Akışı**:
   ```text
-  🔍 Available versions for Sodium (sodium) [Channel: release, Loader: fabric, MC: 1.21.1]:
+  [INFO] Available versions for Sodium (sodium) [Channel: release, Loader: fabric, MC: 1.21.1]:
 
     [1] 0.5.11  (mc1.21.1) - sodium-fabric-0.5.11.jar (Published: 2024-08-15)
     [2] 0.5.10  (mc1.21.1) - sodium-fabric-0.5.10.jar (Published: 2024-07-28)
@@ -92,8 +92,8 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
   Select version [1-10]: 1
 
   Download and install sodium-fabric-0.5.11.jar? [Y/n]: y
-  ⬇️  Downloading sodium-fabric-0.5.11.jar...
-  ✅ Successfully installed Sodium (0.5.11)
+  [INFO] Downloading sodium-fabric-0.5.11.jar...
+  [OK] Successfully installed Sodium (0.5.11)
   ```
 
 #### C. Tek Mod & Belirli Sürüm
@@ -111,7 +111,7 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
   - Seçilen kanaldaki (`release`) en son kararlı sürümler Modrinth üzerinden çözümlenir.
   - Toplu özet tablosu basılarak tek bir son onay istenir:
   ```text
-  📦 Preparing to install 3 mod(s) [Channel: release]:
+  [INFO] Preparing to install 3 mod(s) [Channel: release]:
   - Sodium (sodium) -> 0.5.11 (sodium-fabric-0.5.11.jar)
   - Iris Shaders (iris) -> 1.7.5 (iris-fabric-1.7.5.jar)
   - Lithium (lithium) -> 0.12.1 (lithium-fabric-0.12.1.jar)
@@ -122,7 +122,7 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
 #### E. Zaten Kurulu Mod Uyarısı ve Değiştirme (Replacement) Koruması
 - Eğer kurulmak istenen mod zaten `cmm.lock` içinde mevcutsa:
   ```text
-  ⚠️  Mod 'Sodium' is already installed (Current: 0.5.8, Target: 0.5.11).
+  [WARN] Mod 'Sodium' is already installed (Current: 0.5.8, Target: 0.5.11).
   Replace installed version with 0.5.11? [y/N]: y
   ```
 - Kullanıcı onaylarsa:
@@ -132,7 +132,7 @@ Benzer ve birbiriyle ilişkili özellikler mantıksal olarak **3 ana grup altın
 
 ---
 
-## 🔍 Grup 2: Akıllı Sunucu Taraması ve Kesin Sürüm Tespiti (`cmm scan`)
+## Grup 2: Akıllı Sunucu Taraması ve Kesin Sürüm Tespiti (`cmm scan`)
 
 ### 2.1. Çok Katmanlı Kesin Sürüm (Minecraft & Loader) Tespiti ve Onay Döngüsü
 
@@ -171,14 +171,14 @@ Could not determine exact Loader version. Use detected version (0.16.10)? [Y/n]:
 - **Örnek Çıktı**:
   ```text
   ...
-  Successfully updated 3 mods.
+  [OK] Successfully updated mods.
 
-  Notice: A new Fabric Loader version is available (v0.19.5). Run: cmm loader update
+  [INFO] A new Fabric Loader version is available (v0.19.5). Run: cmm loader update
   ```
 
 ---
 
-## ⚙️ Grup 3: Yükleyici (Loader) ve Temel Ortam Yönetimi (`cmm loader` & `cmm mc-version`)
+## Grup 3: Yükleyici (Loader) ve Temel Ortam Yönetimi (`cmm loader` & `cmm mc-version`)
 
 ### 3.1. `cmm loader update` Komutu ve Süreç Güvenlik Kilidi
 
@@ -199,7 +199,7 @@ Açık ve çalışan bir Minecraft sunucusu veya istemcisi varken loader dosyala
 - **Hata Durumu**:
   Eğer aktif bir süreç tespit edilirse işlem anında durdurulur:
   ```text
-  Error: Server is currently running. Please stop the server before updating the loader (or use --force).
+  [ERROR] Server is currently running. Please stop the server before updating the loader (or use --force).
   ```
 - **Bypass**: `--force` bayrağı verilirse kontrol atlanır.
 
@@ -222,17 +222,17 @@ cmm mc-version
 ```bash
 cmm mc-version "26.1.2"
 ```
-- **Format Doğrulama**: Girilen değerin geçerli bir Minecraft versiyon formatında olup olmadığı (`regexp: ^(1\.[0-9]+(\.[0-9]+)?|2[0-9]\.[0-9]+|[0-9]{2}w[0-9]{2}[a-z])$`) kontrol edilir. Geçersiz bir metin girilirse hata döndürülür (`Error: invalid Minecraft version format 'xyz'`).
+- **Format Doğrulama**: Girilen değerin geçerli bir Minecraft versiyon formatında olup olmadığı (`regexp: ^(1\.[0-9]+(\.[0-9]+)?|2[0-9]\.[0-9]+|[0-9]{2}w[0-9]{2}[a-z])$`) kontrol edilir. Geçersiz bir metin girilirse hata döndürülür (`[ERROR] Invalid Minecraft version format 'xyz'`).
 - **Onay İsteme**:
   ```text
   Change configured Minecraft version from 26.2 to 26.1.2? [y/N]: y
-  Minecraft version updated to 26.1.2 in cmm.toml.
+  [OK] Minecraft version updated to 26.1.2 in cmm.toml.
   ```
 - **Sonuç**: `cmm.toml` dosyası temiz bir şekilde güncellenir. Kullanıcıya kilit dosyasını senkronize etmesi için `cmm update` veya `cmm sync` çalıştırması hatırlatılır.
 
 ---
 
-## 🏗️ Teknik Mimari ve Veri Yapıları Değişiklikleri
+## Teknik Mimari ve Veri Yapıları Değişiklikleri
 
 ### 1. `internal/modrinth/client.go` & `types.go`
 - `ReleaseChannel` tipi eklenir:
@@ -257,7 +257,7 @@ cmm mc-version "26.1.2"
 
 ---
 
-## 🛡️ Uç Durumlar (Edge Cases) ve Hata Yönetimi
+## Uç Durumlar (Edge Cases) ve Hata Yönetimi
 
 | Uç Durum (Edge Case) | Beklenen Sistem Davranışı |
 | :--- | :--- |
@@ -270,5 +270,5 @@ cmm mc-version "26.1.2"
 
 ---
 
-## 📌 Sıradaki Adım
+## Sıradaki Adım
 Bu plan dokümanı, kullanıcı onayının ardından uygulama evresine geçildiğinde referans mimari olarak kullanılacaktır.

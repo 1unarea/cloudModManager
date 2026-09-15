@@ -102,7 +102,7 @@ func AutoInstall() {
 		}
 	}
 
-	fmt.Printf("\n✨ [Auto-Setup] Successfully installed 'cmm' to %s\n", targetPath)
+	fmt.Printf("\n[OK] [Auto-Setup] Successfully installed 'cmm' to %s\n", targetPath)
 
 	if !inPath {
 		// Attempt to add to ~/.bashrc or ~/.profile
@@ -132,12 +132,12 @@ func AutoInstall() {
 		}
 
 		if addedToShell {
-			fmt.Printf("💡 PATH has been updated in your shell profile. Run 'source ~/.bashrc' or restart your terminal to use 'cmm' from any directory!\n\n")
+			fmt.Printf("[INFO] PATH has been updated in your shell profile. Run 'source ~/.bashrc' or restart your terminal to use 'cmm' from any directory.\n\n")
 		} else {
-			fmt.Printf("💡 To use 'cmm' from anywhere, add this to your ~/.bashrc:\n   export PATH=\"%s:$PATH\"\n\n", targetDir)
+			fmt.Printf("[INFO] To use 'cmm' from anywhere, add this to your ~/.bashrc:\n   export PATH=\"%s:$PATH\"\n\n", targetDir)
 		}
 	} else {
-		fmt.Printf("💡 You can now run 'cmm' directly from any folder in your terminal!\n\n")
+		fmt.Printf("[INFO] You can now run 'cmm' directly from any folder in your terminal.\n\n")
 	}
 }
 

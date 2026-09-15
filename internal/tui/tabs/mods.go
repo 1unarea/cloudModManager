@@ -413,7 +413,7 @@ func (m ModsModel) View() string {
 			"Are you sure you want to delete '%s' (%s)?\n\nThis will remove the file from mods/ and update cmm.lock.",
 			m.ModToDelete.Name, m.ModToDelete.Slug,
 		)
-		return components.RenderModal("Delete Mod Confirmation", content, "[y] Confirm  •  [n/Esc] Cancel", 58, 12, m.Width, m.Height)
+		return components.RenderModal("Delete Mod Confirmation", content, "[y] Confirm | [n/Esc] Cancel", 58, 12, m.Width, m.Height)
 	}
 
 	// If details modal is open
@@ -447,14 +447,14 @@ func (m ModsModel) View() string {
 				if entry.SHA512 != "" {
 					shaShort := entry.SHA512
 					if len(shaShort) > 32 {
-						shaShort = shaShort[:32] + "…"
+						shaShort = shaShort[:32] + "..."
 					}
 					sb.WriteString(fmt.Sprintf("SHA-512:     %s\n", shaShort))
 				}
 				if entry.DownloadURL != "" {
 					urlShort := entry.DownloadURL
 					if len(urlShort) > 40 {
-						urlShort = urlShort[:40] + "…"
+						urlShort = urlShort[:40] + "..."
 					}
 					sb.WriteString(fmt.Sprintf("Source URL:  %s\n", urlShort))
 				}
@@ -473,7 +473,7 @@ func (m ModsModel) View() string {
 		sb.WriteString("  ")
 		sb.WriteString(styles.TableRowDim.Render(countStr))
 	} else {
-		filterHint := styles.HelpDescStyle.Render("Press [/] to filter  •  [e/Space] Toggle  •  [p] Pin  •  [d] Delete  •  [u] Update  •  [Enter] Details")
+		filterHint := styles.HelpDescStyle.Render("Press [/] to filter | [e/Space] Toggle | [p] Pin | [d] Delete | [u] Update | [Enter] Details")
 		sb.WriteString(filterHint)
 		sb.WriteString("  ")
 		sb.WriteString(styles.TableRowDim.Render(countStr))

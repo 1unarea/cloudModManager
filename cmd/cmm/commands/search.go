@@ -24,7 +24,7 @@ var searchCmd = &cobra.Command{
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -48,7 +48,7 @@ var searchCmd = &cobra.Command{
 
 		resp, err := client.SearchWithOptions(query, facets, "relevance", 0, limit)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Search error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Search failed: %v\n", err)
 			os.Exit(1)
 		}
 

@@ -28,29 +28,29 @@ var disableCmd = &cobra.Command{
 
 		for _, arg := range args {
 			if disableDryRun {
-				fmt.Printf("[Dry-Run] Would disable mod '%s'\n", arg)
+				fmt.Printf("[INFO] [Dry-Run] Would disable mod '%s'\n", arg)
 				continue
 			}
 
 			res, err := mgr.DisableMod(arg, disableForce)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error disabling mod '%s': %v\n", arg, err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to disable mod '%s': %v\n", arg, err)
 				os.Exit(1)
 			}
 
 			if res.HasDependentsWarning {
-				fmt.Fprintf(os.Stderr, "⚠️  Warning: Cannot disable '%s': active mod(s) depend on it: %s (use --force to bypass)\n", res.Name, strings.Join(res.ActiveDependents, ", "))
+				fmt.Fprintf(os.Stderr, "[WARN] Cannot disable '%s': active mod(s) depend on it: %s (use --force to bypass)\n", res.Name, strings.Join(res.ActiveDependents, ", "))
 				continue
 			}
 
 			if res.AlreadyDisabled {
-				fmt.Printf("ℹ️  Mod '%s' is already disabled\n", res.Name)
+				fmt.Printf("[INFO] Mod '%s' is already disabled\n", res.Name)
 				continue
 			}
 
-			fmt.Printf("⏸️  Successfully disabled %s (%s -> %s)\n", res.Name, res.OldFileName, res.NewFileName)
+			fmt.Printf("[OK] Successfully disabled %s (%s -> %s)\n", res.Name, res.OldFileName, res.NewFileName)
 			if len(res.ActiveDependents) > 0 {
-				fmt.Printf("⚠️  Warning: The following enabled mods depend on '%s': %s\n", res.Name, strings.Join(res.ActiveDependents, ", "))
+				fmt.Printf("[WARN] The following enabled mods depend on '%s': %s\n", res.Name, strings.Join(res.ActiveDependents, ", "))
 			}
 		}
 	},

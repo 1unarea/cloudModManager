@@ -34,7 +34,7 @@ func RenderModal(title, content, footer string, modalWidth, modalHeight, termWid
 	// Content lines
 	contentLines := strings.Split(content, "\n")
 	for _, line := range contentLines {
-		sb.WriteString(styles.Pad(styles.Truncate(line, innerWidth, "…"), innerWidth, styles.AlignLeft))
+		sb.WriteString(styles.Pad(styles.Truncate(line, innerWidth, "..."), innerWidth, styles.AlignLeft))
 		sb.WriteString("\n")
 	}
 

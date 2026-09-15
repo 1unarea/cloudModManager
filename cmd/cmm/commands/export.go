@@ -38,10 +38,10 @@ var exportCmd = &cobra.Command{
 				ConfigDir:  "config",
 			}
 			if err := export.ExportMrpack(opts); err != nil {
-				fmt.Fprintf(os.Stderr, "Error exporting mrpack: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to export mrpack: %v\n", err)
 				os.Exit(1)
 			}
-			fmt.Println("Successfully exported Modrinth modpack (.mrpack).")
+			fmt.Println("[OK] Successfully exported Modrinth modpack (.mrpack).")
 
 		case "github":
 			opts := export.GitHubExportOptions{
@@ -50,13 +50,13 @@ var exportCmd = &cobra.Command{
 				LockPath:   "cmm.lock",
 			}
 			if err := export.ExportGitHub(opts); err != nil {
-				fmt.Fprintf(os.Stderr, "Error exporting GitHub repository: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to export GitHub repository: %v\n", err)
 				os.Exit(1)
 			}
-			fmt.Println("Successfully exported GitHub repository files.")
+			fmt.Println("[OK] Successfully exported GitHub repository files.")
 
 		default:
-			fmt.Fprintf(os.Stderr, "Invalid export format '%s'. Supported formats: mrpack, github\n", exportFormat)
+			fmt.Fprintf(os.Stderr, "[ERROR] Invalid export format '%s'. Supported formats: mrpack, github\n", exportFormat)
 			os.Exit(1)
 		}
 	},

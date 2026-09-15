@@ -26,7 +26,7 @@ Keybindings:
 	Run: func(cmd *cobra.Command, args []string) {
 		// Verify cmm.toml exists
 		if _, err := config.LoadConfig("cmm.toml"); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: cmm.toml not found. Run 'cmm init' first.\n")
+			fmt.Fprintf(os.Stderr, "[ERROR] cmm.toml not found. Run 'cmm init' first.\n")
 			os.Exit(1)
 		}
 
@@ -37,20 +37,20 @@ Keybindings:
 			var buf bytes.Buffer
 			n, err := io.Copy(&buf, os.Stdin)
 			if err != nil || n == 0 {
-				fmt.Println("Running in non-interactive mode.")
+				fmt.Println("[INFO] Running in non-interactive mode.")
 				return
 			}
 
 			// Piped input available: execute headless program
 			app, err := tui.NewApp("cmm.toml", "cmm.lock")
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error initializing TUI: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to initialize TUI: %v\n", err)
 				os.Exit(1)
 			}
 
 			prog := tea.NewProgram(app, tea.WithInput(&buf), tea.WithOutput(os.Stdout), tea.WithoutRenderer())
 			if _, err := prog.Run(); err != nil {
-				fmt.Fprintf(os.Stderr, "TUI error: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] TUI error: %v\n", err)
 				os.Exit(1)
 			}
 			return
@@ -59,13 +59,13 @@ Keybindings:
 		// Interactive terminal session
 		app, err := tui.NewApp("cmm.toml", "cmm.lock")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error initializing TUI: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to initialize TUI: %v\n", err)
 			os.Exit(1)
 		}
 
 		prog := tea.NewProgram(app, tea.WithInput(os.Stdin), tea.WithOutput(os.Stdout), tea.WithAltScreen())
 		if _, err := prog.Run(); err != nil {
-			fmt.Fprintf(os.Stderr, "TUI error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] TUI error: %v\n", err)
 			os.Exit(1)
 		}
 	},

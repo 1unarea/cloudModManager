@@ -13,7 +13,7 @@ test-all: test-unit test-e2e test-tier2 test-tier3 test-tier4
 test-unit:
 	$(GO) test -v ./internal/...
 
-test-e2e: build
+test-e2e: build cross-compile
 	$(GO) test -v ./e2e/tier1/...
 
 test-tier2: build

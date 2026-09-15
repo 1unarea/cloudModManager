@@ -16,18 +16,18 @@
 ## Feature Checklist
 | Feature | Tier 1 | Tier 2 | Tier 3 | Tier 4 |
 |---------|:------:|:------:|:------:|:------:|
-| Init | 5 | ✓ | ✓ | ✓ |
-| Search | 5 | ✓ | ✓ | ✓ |
-| Add Mod | 5 | ✓ | ✓ | ✓ |
-| List Mods | 5 | ✓ | ✓ | ✓ |
-| Remove Mod | 5 | ✓ | ✓ | ✓ |
-| Pin/Unpin | 5 | ✓ | ✓ | ✓ |
-| Update | 5 | ✓ | ✓ | ✓ |
-| TUI | 5 | ✓ | ✓ | ✓ |
-| Sync Modrinth | 5 | ✓ | ✓ | ✓ |
-| Sync GitHub | 5 | ✓ | ✓ | ✓ |
-| Sync Local | 5 | ✓ | ✓ | ✓ |
-| Serve | 5 | ✓ | ✓ | ✓ |
-| Export mrpack | 5 | ✓ | ✓ | ✓ |
-| Export github | 5 | ✓ | ✓ | ✓ |
-| Loader | 5 | ✓ | ✓ | ✓ |
+| Init | 5 | OK | OK | OK |
+| Search | 5 | OK | OK | OK |
+| Add Mod | 5 | OK | OK | OK |
+| List Mods | 5 | OK | OK | OK |
+| Remove Mod | 5 | OK | OK | OK |
+| Pin/Unpin | 5 | OK | OK | OK |
+| Update | 5 | OK | OK | OK |
+| TUI | 5 | OK | OK | OK |
+| Sync Modrinth | 5 | OK | OK | OK |
+| Sync GitHub | 5 | OK | OK | OK |
+| Sync Local | 5 | OK | OK | OK |
+| Serve | 5 | OK | OK | OK |
+| Export mrpack | 5 | OK | OK | OK |
+| Export github | 5 | OK | OK | OK |
+| Loader | 5 | OK | OK | OK |

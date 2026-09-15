@@ -47,7 +47,7 @@ var launcherListCmd = &cobra.Command{
 		}
 
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error detecting launcher instances: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to detect launcher instances: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -57,7 +57,7 @@ var launcherListCmd = &cobra.Command{
 			}
 			data, err := json.MarshalIndent(instances, "", "  ")
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error formatting JSON: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to format JSON: %v\n", err)
 				os.Exit(1)
 			}
 			fmt.Println(string(data))
@@ -92,7 +92,7 @@ var launcherSyncCmd = &cobra.Command{
 		userAgent := "CloudModManager/1.0 (contact: user@domain.local)"
 		client, err := modrinth.NewClient(userAgent)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error initializing Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to initialize Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -106,14 +106,14 @@ var launcherSyncCmd = &cobra.Command{
 			DryRun:       launcherSyncDryRun,
 		})
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error syncing launcher instance: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to sync launcher instance: %v\n", err)
 			os.Exit(1)
 		}
 
 		if strings.ToLower(launcherSyncFormat) == "json" {
 			data, err := json.MarshalIndent(res, "", "  ")
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error formatting JSON: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to format JSON: %v\n", err)
 				os.Exit(1)
 			}
 			fmt.Println(string(data))
@@ -121,10 +121,10 @@ var launcherSyncCmd = &cobra.Command{
 		}
 
 		if launcherSyncDryRun {
-			fmt.Printf("🔍 [DRY RUN] Direct sync preview for %s instance '%s':\n", res.Instance.LauncherName, res.Instance.Name)
+			fmt.Printf("[INFO] [DRY RUN] Direct sync preview for %s instance '%s':\n", res.Instance.LauncherName, res.Instance.Name)
 			fmt.Printf("Target directory: %s\n", res.Instance.ModsDir)
 			if res.UpToDate {
-				fmt.Println("Instance is already up to date.")
+				fmt.Println("[INFO] Instance is already up to date.")
 			} else {
 				if len(res.AddedMods) > 0 {
 					fmt.Printf("Will Add (%d): %s\n", len(res.AddedMods), strings.Join(res.AddedMods, ", "))
@@ -143,14 +143,14 @@ var launcherSyncCmd = &cobra.Command{
 		}
 
 		if res.UpToDate {
-			fmt.Printf("Instance '%s' is already up to date.\n", res.Instance.Name)
+			fmt.Printf("[INFO] Instance '%s' is already up to date.\n", res.Instance.Name)
 			if len(res.SkippedMods) > 0 {
 				fmt.Printf("Skipped server-only mods (%d): %s\n", len(res.SkippedMods), strings.Join(res.SkippedMods, ", "))
 			}
 			return
 		}
 
-		fmt.Printf("Successfully synchronized modpack into %s instance '%s'\n", res.Instance.LauncherName, res.Instance.Name)
+		fmt.Printf("[OK] Successfully synchronized modpack into %s instance '%s'\n", res.Instance.LauncherName, res.Instance.Name)
 		fmt.Printf("Target directory: %s\n", res.Instance.ModsDir)
 		if len(res.AddedMods) > 0 {
 			fmt.Printf("Added (%d): %s\n", len(res.AddedMods), strings.Join(res.AddedMods, ", "))

@@ -40,7 +40,7 @@ func TestStyles_Helpers(t *testing.T) {
 	}
 
 	// Truncate
-	truncated := Truncate("This is a long sentence", 10, "…")
+	truncated := Truncate("This is a long sentence", 10, "...")
 	if StringWidth(truncated) > 10 {
 		t.Errorf("Expected truncated width <= 10, got %d ('%s')", StringWidth(truncated), truncated)
 	}

@@ -26,20 +26,20 @@ var enableCmd = &cobra.Command{
 
 		for _, arg := range args {
 			if enableDryRun {
-				fmt.Printf("[Dry-Run] Would enable mod '%s'\n", arg)
+				fmt.Printf("[INFO] [Dry-Run] Would enable mod '%s'\n", arg)
 				continue
 			}
 
 			res, err := mgr.EnableMod(arg)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error enabling mod '%s': %v\n", arg, err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to enable mod '%s': %v\n", arg, err)
 				os.Exit(1)
 			}
 
 			if res.AlreadyEnabled {
-				fmt.Printf("ℹ️  Mod '%s' is already enabled\n", res.Name)
+				fmt.Printf("[INFO] Mod '%s' is already enabled\n", res.Name)
 			} else {
-				fmt.Printf("✅ Successfully enabled %s (%s -> %s)\n", res.Name, res.OldFileName, res.NewFileName)
+				fmt.Printf("[OK] Successfully enabled %s (%s -> %s)\n", res.Name, res.OldFileName, res.NewFileName)
 			}
 		}
 	},

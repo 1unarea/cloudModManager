@@ -48,7 +48,7 @@ var serveCmd = &cobra.Command{
 		srv.Client = client
 
 		if err := srv.Start(); err != nil {
-			fmt.Fprintf(os.Stderr, "Error running server: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to run server: %v\n", err)
 			os.Exit(1)
 		}
 	},

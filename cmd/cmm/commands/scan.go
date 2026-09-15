@@ -247,11 +247,11 @@ cmm.toml and cmm.lock automatically.`,
 
 		absDir, err := filepath.Abs(targetDir)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error resolving directory '%s': %v\n", targetDir, err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to resolve directory '%s': %v\n", targetDir, err)
 			os.Exit(1)
 		}
 
-		fmt.Printf("🔍 Scanning directory: %s\n", absDir)
+		fmt.Printf("[INFO] Scanning directory: %s\n", absDir)
 
 		configPath := filepath.Join(absDir, "cmm.toml")
 		lockPath := filepath.Join(absDir, "cmm.lock")
@@ -288,7 +288,7 @@ cmm.toml and cmm.lock automatically.`,
 			exactMC, isExactMC := detectExactMCVersion(absDir)
 			if isExactMC {
 				finalMC = exactMC
-				fmt.Printf("🎯 Exact Minecraft version detected from server files: %s\n", finalMC)
+				fmt.Printf("[INFO] Exact Minecraft version detected from server files: %s\n", finalMC)
 			} else {
 				prompt := fmt.Sprintf("Could not determine exact Minecraft version. Use detected version (%s)? [Y/n]: ", detMC)
 				if !askConfirmPrompt(prompt) {
@@ -308,7 +308,7 @@ cmm.toml and cmm.lock automatically.`,
 			exactLdrType, exactLdrVer, isExactLdr := detectExactLoader(absDir)
 			if isExactLdr {
 				finalLoader = exactLdrType
-				fmt.Printf("🎯 Exact Loader detected from server files: %s (v%s)\n", finalLoader, exactLdrVer)
+				fmt.Printf("[INFO] Exact Loader detected from server files: %s (v%s)\n", finalLoader, exactLdrVer)
 			} else {
 				prompt := fmt.Sprintf("Could not determine exact Loader version. Use detected version (%s)? [Y/n]: ", detLoader)
 				if !askConfirmPrompt(prompt) {
@@ -338,19 +338,19 @@ cmm.toml and cmm.lock automatically.`,
 				},
 			}
 			if err := config.SaveConfig(configPath, cfg); err != nil {
-				fmt.Fprintf(os.Stderr, "Error creating %s: %v\n", configPath, err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to create %s: %v\n", configPath, err)
 				os.Exit(1)
 			}
-			fmt.Printf("✨ Created %s with detected profile settings.\n", configPath)
+			fmt.Printf("[OK] Created %s with detected profile settings.\n", configPath)
 		} else {
-			fmt.Printf("ℹ️  Using existing %s (Profile: %s | MC: %s | Loader: %s)\n",
+			fmt.Printf("[INFO] Using existing %s (Profile: %s | MC: %s | Loader: %s)\n",
 				configPath, cfg.Profile.Name, cfg.Profile.MinecraftVersion, cfg.Profile.Loader)
 		}
 
 		// 2. Perform Local Synchronizer Scan
 		client, err := modrinth.NewClient("CloudModManager/1.0 (contact: admin@localhost)")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error creating Modrinth client: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to create Modrinth client: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -359,21 +359,21 @@ cmm.toml and cmm.lock automatically.`,
 			Path: modsDir,
 		})
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error during scan: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Scan failed: %v\n", err)
 			os.Exit(1)
 		}
 
 		// 3. Print Detailed Summary
-		fmt.Println("\n📊 --- Scan Summary ---")
-		fmt.Printf("• Recognized Mods Added/Updated (%d):\n", len(res.AddedMods))
+		fmt.Println("\n--- Scan Summary ---")
+		fmt.Printf("* Recognized Mods Added/Updated (%d):\n", len(res.AddedMods))
 		for _, m := range res.AddedMods {
-			fmt.Printf("   ✓ %s\n", m)
+			fmt.Printf("   [OK] %s\n", m)
 		}
 
 		if len(res.UnknownJars) > 0 {
-			fmt.Printf("\n• Unrecognized / Custom JARs (%d):\n", len(res.UnknownJars))
+			fmt.Printf("\n* Unrecognized / Custom JARs (%d):\n", len(res.UnknownJars))
 			for _, uj := range res.UnknownJars {
-				fmt.Printf("   ⚠️  %s\n", uj)
+				fmt.Printf("   [WARN] %s\n", uj)
 			}
 		}
 
@@ -381,16 +381,16 @@ cmm.toml and cmm.lock automatically.`,
 		cfgDir := filepath.Join(absDir, "config")
 		if stat, err := os.Stat(cfgDir); err == nil && stat.IsDir() {
 			if cfgEntries, err := os.ReadDir(cfgDir); err == nil {
-				fmt.Printf("\n• Config directory detected (%d files/folders in %s)\n", len(cfgEntries), cfgDir)
+				fmt.Printf("\n* Config directory detected (%d files/folders in %s)\n", len(cfgEntries), cfgDir)
 			}
 		}
 
-		fmt.Printf("\n✅ Scan complete. %s is up to date.\n", lockPath)
+		fmt.Printf("\n[OK] Scan complete. %s is up to date.\n", lockPath)
 
 		// 5. Notice: Check if a newer Loader version is available
 		if cfg != nil && cfg.Profile.Loader != "" {
 			if latestVer, available, _ := loader.CheckLatestLoaderVersion(cfg.Profile.Loader, cfg.Profile.LoaderVersion); available {
-				fmt.Printf("\nNotice: A new %s Loader version is available (v%s). Run: cmm loader update\n", strings.Title(cfg.Profile.Loader), latestVer)
+				fmt.Printf("\n[INFO] A new %s Loader version is available (v%s). Run: cmm loader update\n", strings.Title(cfg.Profile.Loader), latestVer)
 			}
 		}
 	},

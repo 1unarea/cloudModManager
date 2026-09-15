@@ -4,7 +4,7 @@
 
 ---
 
-## 📑 İçindekiler
+## İçindekiler
 1. [Kurulum Rehberi (Installation)](#1-kurulum-rehberi-installation)
    - [Önceden Derlenmiş İkilileri Kullanma (Tavsiye Edilen)](#önceden-derlenmiş-ikilileri-kullanma-tavsiye-edilen)
    - [Kaynaktan Derleme (Build from Source)](#kaynaktan-derleme-build-from-source)
@@ -37,8 +37,8 @@
 ./cmm-linux-arm64
 
 # Çıktı:
-# ✨ [Auto-Setup] Successfully installed 'cmm' to ~/.local/bin/cmm
-# 💡 You can now run 'cmm' directly from any folder in your terminal!
+# [OK] [Auto-Setup] Successfully installed 'cmm' to ~/.local/bin/cmm
+# [INFO] You can now run 'cmm' directly from any folder in your terminal.
 
 # Artık her yerden sadece 'cmm' yazarak kullanabilirsiniz:
 cmm --help
@@ -204,9 +204,9 @@ cmm list --json
 Kurulu modların Modrinth üzerindeki en güncel sürümlerini kontrol eder ve günceller.
 
 - **Modrinth Slug Gösterimi**: Güncellenecek modların yanında slug bilgisi parantez içinde belirtilir: `- Sodium (sodium): 0.5.8 -> 0.5.11`.
-- **Kararlılık Kanalı Filtresi (`--channel`)**: `--channel release` (varsayılan), `--channel beta` veya `--channel alpha`. Aktif kanal bilgisi komut çıktısının en başında `🔍 Checking for updates... [Channel: release]` olarak gösterilir.
+- **Kararlılık Kanalı Filtresi (`--channel`)**: `--channel release` (varsayılan), `--channel beta` veya `--channel alpha`. Aktif kanal bilgisi komut çıktısının en başında `[INFO] Checking for updates... [Channel: release]` olarak gösterilir.
 - **Çoklu Slug ve Tek Onay**: Boşlukla ayrılmış modlar girilebilir (`cmm update sodium iris lithium`). Toplu özet listelenir ve tek bir `Apply updates? [y/N]: ` onayı ile hepsi güncellenir.
-- **Loader Bildirimi**: Eğer daha yeni bir Loader sürümü varsa akış bozulmadan çıktı sonunda tek satırlık bildirim basılır (`Notice: A new Fabric Loader version is available (v0.19.5). Run: cmm loader update`).
+- **Loader Bildirimi**: Eğer daha yeni bir Loader sürümü varsa akış bozulmadan çıktı sonunda tek satırlık bildirim basılır (`[INFO] A new Fabric Loader version is available (v0.19.5). Run: cmm loader update`).
 
 ```bash
 # Tüm modları güncelleme (release kanalı):
@@ -330,14 +330,14 @@ Cloud Mod Manager'ın mevcut sürümünü gösterir, GitHub üzerindeki en son y
 cmm version
 # Çıktı:
 # Cloud Mod Manager v0.1.0 (linux/amd64)
-# 🔍 Checking for updates...
-# ✅ Cloud Mod Manager is up to date (v0.1.0).
+# [INFO] Checking for updates...
+# [OK] Cloud Mod Manager is up to date (v0.1.0).
 
 # Yeni bir sürüm varsa:
-# 🚀 A new version of Cloud Mod Manager is available: v0.2.0 (Current: v0.1.0)
+# [INFO] A new version of Cloud Mod Manager is available: v0.2.0 (Current: v0.1.0)
 # Download and install v0.2.0 now? [y/N]: y
-# ⬇️  Downloading and installing v0.2.0...
-# ✨ Successfully updated Cloud Mod Manager to v0.2.0!
+# [INFO] Downloading and installing v0.2.0...
+# [OK] Successfully updated Cloud Mod Manager to v0.2.0!
 
 # Yalnızca güncelleme olup olmadığını kontrol etme (onay sormadan):
 cmm version --check
@@ -491,7 +491,7 @@ cmm tui
  │  [OK]        FerriteCore           ferrite-core        6.0.1           both            │
  │                                                                                        │
  ├────────────────────────────────────────────────────────────────────────────────────────┤
- │  [Tab/1-4] Sekme Değiştir  •  [?] Yardım  •  [p] Pin  •  [d] Sil  •  [u] Güncelle      │
+ │  [Tab/1-4] Sekme Değiştir  |  [?] Yardım  |  [p] Pin  |  [d] Sil  |  [u] Güncelle      │
  └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -501,7 +501,7 @@ cmm tui
 |---|---|
 | `Tab` / `Shift+Tab` | Sekmeler arasında ileri / geri geçiş yapar. |
 | `1`, `2`, `3`, `4` | Doğrudan ilgili sekmeye atlar (`Mods`, `Search`, `Config`, `Sync`). |
-| `↑` / `↓` veya `k` / `j` | Listede veya form alanlarında yukarı/aşağı gezinir. |
+| `Up` / `Down` veya `k` / `j` | Listede veya form alanlarında yukarı/aşağı gezinir. |
 | `Enter` | Mod detaylarını açar, arama sürümünü seçer veya form kaydeder. |
 | `p` | Seçili modu sabitler / sabitlemeyi kaldırır (`[PIN]`). |
 | `d` veya `x` | Seçili modu silmek için onay modalı açar. |
@@ -587,6 +587,6 @@ cmm sync local
 
 ---
 
-## 🎯 Destek & İpuçları
+## Destek & İpuçları
 - **Yardım**: Herhangi bir komut için `--help` ekleyerek (örn. `cmm sync --help`) tüm bayrakları görebilirsiniz.
 - **Oracle Cloud Performansı**: `cmm-linux-arm64` ikilisi ARM64 Ampere işlemciler için sıfır CGO bağımlılığı ile saf Go'da derlenmiştir; RAM ve CPU tüketimi asgari düzeydedir (<15MB RAM).

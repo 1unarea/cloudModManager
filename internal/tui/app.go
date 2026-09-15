@@ -329,7 +329,7 @@ func (a AppModel) View() string {
 	sb.WriteString(styles.TabDivider.Render(strings.Repeat("─", a.Width)))
 	sb.WriteString("\n")
 	footerKeys := fmt.Sprintf(
-		" %s %s  •  %s %s  •  %s %s  •  %s %s",
+		" %s %s  |  %s %s  |  %s %s  |  %s %s",
 		styles.StatusBarKey.Render("[Tab/1-4]"),
 		styles.StatusBarDesc.Render("Switch Tab"),
 		styles.StatusBarKey.Render("[?]"),

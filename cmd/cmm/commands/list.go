@@ -28,7 +28,7 @@ var listCmd = &cobra.Command{
 
 		statuses, err := mgr.List()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error listing mods: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] Failed to list mods: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -38,7 +38,7 @@ var listCmd = &cobra.Command{
 			}
 			data, err := json.MarshalIndent(statuses, "", "  ")
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error formatting JSON: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to format JSON: %v\n", err)
 				os.Exit(1)
 			}
 			fmt.Println(string(data))

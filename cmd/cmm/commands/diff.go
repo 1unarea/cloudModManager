@@ -42,21 +42,21 @@ or compare two local lockfiles. Categorizes mods into [OK], [MISMATCH], [CLIENT]
 			}
 			res, err = engine.CompareRemote(lockPath, diffURL, token)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error comparing with remote server: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to compare with remote server: %v\n", err)
 				os.Exit(1)
 			}
 		} else if len(args) >= 2 {
 			// Case 2: Compare two lockfiles
 			res, err = engine.CompareFiles(args[0], args[1])
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error comparing lockfiles: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to compare lockfiles: %v\n", err)
 				os.Exit(1)
 			}
 		} else if len(args) == 1 {
 			// Case 3: Compare local cmm.lock against specified lockfile
 			res, err = engine.CompareFiles(lockPath, args[0])
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error comparing lockfiles: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to compare lockfiles: %v\n", err)
 				os.Exit(1)
 			}
 		} else {
@@ -83,18 +83,18 @@ or compare two local lockfiles. Categorizes mods into [OK], [MISMATCH], [CLIENT]
 				}
 				res, err = engine.CompareRemote(lockPath, remoteSource.URL, token)
 				if err != nil {
-					fmt.Fprintf(os.Stderr, "Error comparing with remote server (%s): %v\n", remoteSource.URL, err)
+					fmt.Fprintf(os.Stderr, "[ERROR] Failed to compare with remote server (%s): %v\n", remoteSource.URL, err)
 					os.Exit(1)
 				}
 			} else {
-				fmt.Fprintf(os.Stderr, "Error: specify a remote server --url or lockfile path(s) to compare (e.g. 'cmm diff --url http://127.0.0.1:8080' or 'cmm diff client.lock server.lock')\n")
+				fmt.Fprintf(os.Stderr, "[ERROR] Specify a remote server --url or lockfile path(s) to compare (e.g. 'cmm diff --url http://127.0.0.1:8080' or 'cmm diff client.lock server.lock')\n")
 				os.Exit(1)
 			}
 		}
 
 		if diffJSON {
 			if err := sync.FormatJSON(os.Stdout, res); err != nil {
-				fmt.Fprintf(os.Stderr, "Error formatting JSON: %v\n", err)
+				fmt.Fprintf(os.Stderr, "[ERROR] Failed to format JSON: %v\n", err)
 				os.Exit(1)
 			}
 			return

@@ -22,14 +22,14 @@ var pinCmd = &cobra.Command{
 		mgr := mod.NewManager(nil, "cmm.toml", "cmm.lock")
 
 		if err := mgr.Pin(slug, pinVersion); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 			os.Exit(1)
 		}
 
 		if pinVersion != "" {
-			fmt.Printf("Pinned mod '%s' to version %s\n", slug, pinVersion)
+			fmt.Printf("[OK] Pinned mod '%s' to version %s\n", slug, pinVersion)
 		} else {
-			fmt.Printf("Pinned mod '%s'\n", slug)
+			fmt.Printf("[OK] Pinned mod '%s'\n", slug)
 		}
 	},
 }
@@ -45,16 +45,16 @@ var unpinCmd = &cobra.Command{
 
 		alreadyUnpinned, err := mgr.Unpin(slug)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err)
 			os.Exit(1)
 		}
 
 		if alreadyUnpinned {
-			fmt.Printf("Already unpinned: %s\n", slug)
+			fmt.Printf("[INFO] Already unpinned: %s\n", slug)
 			return
 		}
 
-		fmt.Printf("Unpinned mod '%s'\n", slug)
+		fmt.Printf("[OK] Unpinned mod '%s'\n", slug)
 	},
 }
 

@@ -62,5 +62,5 @@ loader = "fabric"
 
 	res := ctx.Run("mc-version", "invalid_ver_string")
 	res.AssertFailure()
-	res.AssertStderrContains("invalid Minecraft version format")
+	res.AssertStderrContains("Invalid Minecraft version format")
 }

@@ -314,7 +314,7 @@ func (m ConfigModel) Update(msg tea.Msg) (ConfigModel, tea.Cmd) {
 func (m ConfigModel) View() string {
 	var sb strings.Builder
 
-	sb.WriteString(styles.HelpDescStyle.Render("Edit profile configuration for cmm.toml  •  [Tab/Arrows] Navigate  •  [Space] Cycle options"))
+	sb.WriteString(styles.HelpDescStyle.Render("Edit profile configuration for cmm.toml  |  [Tab/Arrows] Navigate  |  [Space] Cycle options"))
 	sb.WriteString("\n\n")
 
 	renderField := func(label string, field ConfigField, extraHint string) {
@@ -326,7 +326,7 @@ func (m ConfigModel) View() string {
 
 		prefix := "  "
 		if focused {
-			prefix = "▶ "
+			prefix = "> "
 		}
 
 		lbl := lblStyle.Render(fmt.Sprintf("%-22s", label))
@@ -352,7 +352,7 @@ func (m ConfigModel) View() string {
 	// Buttons
 	savePrefix := "  "
 	if m.ActiveField == FieldSaveButton {
-		savePrefix = "▶ "
+		savePrefix = "> "
 		sb.WriteString(savePrefix + styles.ButtonActive.Render(" Save Changes (s) "))
 	} else {
 		sb.WriteString(savePrefix + styles.ButtonInactive.Render(" Save Changes (s) "))
@@ -362,7 +362,7 @@ func (m ConfigModel) View() string {
 
 	reloadPrefix := ""
 	if m.ActiveField == FieldReloadButton {
-		reloadPrefix = "▶ "
+		reloadPrefix = "> "
 		sb.WriteString(reloadPrefix + styles.ButtonActive.Render(" Reload Disk (r) "))
 	} else {
 		sb.WriteString(reloadPrefix + styles.ButtonInactive.Render(" Reload Disk (r) "))

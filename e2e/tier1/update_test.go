@@ -100,7 +100,7 @@ version = "0.11.0"
 	res.AssertStdoutContains("Sodium (sodium)")
 	res.AssertStdoutContains("Lithium (lithium)")
 	// Notice of new loader
-	res.AssertStdoutContains("Notice: A new Fabric Loader version is available (v0.19.3)")
+	res.AssertStdoutContains("[INFO] A new Fabric Loader version is available (v0.19.3)")
 }
 
 func TestUpdate_PreventDowngrade_HigherVersionInstalled(t *testing.T) {

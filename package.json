@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aegeada/cloudModManager.git"
+    "url": "git+https://github.com/1unarea/cloudModManager.git"
   },
   "bugs": {
-    "url": "https://github.com/aegeada/cloudModManager/issues"
+    "url": "https://github.com/1unarea/cloudModManager/issues"
   },
-  "homepage": "https://github.com/aegeada/cloudModManager#readme",
-  "author": "aegeada",
+  "homepage": "https://github.com/1unarea/cloudModManager#readme",
+  "author": "1unarea",
   "license": "MIT",
   "keywords": [
     "minecraft",

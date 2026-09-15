@@ -5,7 +5,7 @@ const https = require('https');
 const os = require('os');
 
 const VERSION = 'v0.2.0';
-const REPO = 'aegeada/cloudModManager';
+const REPO = '1unarea/cloudModManager';
 
 function getPlatformInfo() {
   const platform = os.platform();

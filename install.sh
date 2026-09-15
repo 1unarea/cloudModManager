@@ -4,7 +4,7 @@ set -euo pipefail
 # Cloud Mod Manager (cmm) - Installation Script
 # https://github.com/aegeada/cloudModManager
 
-REPO="aegeada/cloudModManager"
+REPO="1unarea/cloudModManager"
 INSTALL_DIR="${HOME}/.local/bin"
 
 echo "[INFO] Installing Cloud Mod Manager (cmm)..."
